@@ -1,6 +1,6 @@
 # Ignite Timer Rocketseat
 
-Segundo projeto desenvolvido na trilha Ignite da Rocketseat com ReactJS, Styled-Components e TypeScript
+Segundo projeto em desenvolvimento na trilha Ignite da Rocketseat com ReactJS, Styled-Components e TypeScript
 
 ## 🛠 Tecnologias
 
