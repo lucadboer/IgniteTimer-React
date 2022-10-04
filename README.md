@@ -11,7 +11,7 @@ Second project in development on Rocketseat's Ignite track with ReactJS, Styled-
 - TypeScript
 - Styled-Components
 
-## Applications
+## 🧑‍💻 Applications
 
 - React Hooks
 - React Router
