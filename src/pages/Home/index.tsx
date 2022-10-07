@@ -1,10 +1,9 @@
 import { HandPalm, Play } from 'phosphor-react'
-import { useForm } from 'react-hook-form'
+import { useForm, FormProvider } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as zod from 'zod'
 import { HomeContainer, StarterCountdown, StopCountdown } from './styles'
-import { useEffect, useState, createContext, useContext } from 'react'
-import { differenceInSeconds } from 'date-fns'
+import { useState, createContext } from 'react'
 import { NewCycleForm } from './components/NewCycleForm'
 import { Countdown } from './components/Countdown'
 
@@ -32,16 +31,20 @@ interface Cycle {
 
 interface ActiveCycleTypes {
   activeCycle: Cycle | undefined
+  activeCycleId: string | null
+  amountSecondsPassed: number
+  markCurrentCycleAsFinishied: () => void
+  setPassedSeconds: (seconds: number) => void
 }
 
-const CycleContext = createContext({} as ActiveCycleTypes)
+export const CycleContext = createContext({} as ActiveCycleTypes)
 
 export function Home() {
   const [cycles, setCycles] = useState<Cycle[]>([])
   const [activeCycleId, setactiveCycleId] = useState<string | null>(null)
   const [amountSecondsPassed, setAmountSecondsPassed] = useState(0)
 
-  const { register, handleSubmit, watch, reset } = useForm({
+  const newCycleForm = useForm({
     resolver: zodResolver(newCycleFormValidationSchema),
     defaultValues: {
       task: '',
@@ -49,56 +52,28 @@ export function Home() {
     },
   })
 
+  const { handleSubmit, watch, reset } = newCycleForm
+
   const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId)
 
   const task = watch('task')
   const isSubmitDisabled = !task
 
-  const totalSeconds = activeCycle ? activeCycle.minutes * 60 : 0
-  const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0
+  function setPassedSeconds(seconds: number) {
+    setAmountSecondsPassed(seconds)
+  }
 
-  const minutesAmount = Math.floor(currentSeconds / 60)
-  const secondsAmount = currentSeconds % 60
-
-  const minutes = String(minutesAmount).padStart(2, '0')
-  const seconds = String(secondsAmount).padStart(2, '0')
-
-  useEffect(() => {
-    let interval: number
-    if (activeCycle)
-      interval = setInterval(() => {
-        const differenceSeconds = differenceInSeconds(
-          new Date(),
-          activeCycle.startDate,
-        )
-
-        if (differenceSeconds >= totalSeconds) {
-          setCycles((state) =>
-            state.map((cycle) => {
-              if (cycle.id === activeCycleId) {
-                return { ...cycle, finishiedDate: new Date() }
-              } else {
-                return cycle
-              }
-            }),
-          )
-          setAmountSecondsPassed(totalSeconds)
-          clearInterval(interval)
+  function markCurrentCycleAsFinishied() {
+    setCycles((state) =>
+      state.map((cycle) => {
+        if (cycle.id === activeCycleId) {
+          return { ...cycle, finishiedDate: new Date() }
         } else {
-          setAmountSecondsPassed(differenceSeconds)
+          return cycle
         }
-      }, 1000)
-
-    return () => {
-      clearInterval(interval)
-    }
-  }, [activeCycle, activeCycleId, totalSeconds])
-
-  useEffect(() => {
-    if (activeCycle) {
-      document.title = `${minutes}:${seconds}`
-    }
-  }, [minutes, seconds, activeCycle])
+      }),
+    )
+  }
 
   function handleCreateNewCycle(data: NewCycleFormData) {
     const id = String(new Date().getTime())
@@ -133,8 +108,18 @@ export function Home() {
   return (
     <HomeContainer>
       <form onSubmit={handleSubmit(handleCreateNewCycle)}>
-        <CycleContext.Provider value={{ activeCycle }}>
-          <NewCycleForm />
+        <CycleContext.Provider
+          value={{
+            activeCycle,
+            activeCycleId,
+            markCurrentCycleAsFinishied,
+            amountSecondsPassed,
+            setPassedSeconds,
+          }}
+        >
+          <FormProvider {...newCycleForm}>
+            <NewCycleForm />
+          </FormProvider>
           <Countdown />
         </CycleContext.Provider>
         {activeCycle ? (
