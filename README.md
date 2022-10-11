@@ -9,9 +9,9 @@
 
 > Trilha Ignite
 
-Segundo projeto em desenvolvido na trilha Ignite da Rocketseat com ReactJS, Styled-Components e TypeScript
+Segunda aplicação desenvolvida na trilha Ignite da Rocketseat com ReactJS, Styled-Components e TypeScript
 
-Second project in development on Rocketseat's Ignite track with ReactJS, Styled-Components and TypeScript
+Second application developed on Rocketseat's Ignite track with ReactJS, Styled-Components and TypeScript
 
 ## 🛠 Technologies
 
