@@ -1,6 +1,15 @@
 # Ignite Timer Rocketseat
 
-Segundo projeto em desenvolvimento na trilha Ignite da Rocketseat com ReactJS, Styled-Components e TypeScript
+<span align="center">
+    <img height="300" src="./github/preview1.png">
+    <img height="300" src="./github/preview2.png">
+</span>
+    
+</p>
+
+> Trilha Ignite
+
+Segundo projeto em desenvolvido na trilha Ignite da Rocketseat com ReactJS, Styled-Components e TypeScript
 
 Second project in development on Rocketseat's Ignite track with ReactJS, Styled-Components and TypeScript
 
@@ -15,6 +24,8 @@ Second project in development on Rocketseat's Ignite track with ReactJS, Styled-
 
 - React Hooks
 - React Router
+- Reducers
+- Context API
 - immutability
 - Components
 - Typing with typescript
