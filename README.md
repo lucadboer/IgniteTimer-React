@@ -1,8 +1,8 @@
 # Ignite Timer Rocketseat
 
 <span align="center">
-    <img width="500" height="300" src="./github/preview1.png">
-    <img width="500" height="300" src="./github/preview2.png">
+    <img width="550" height="350" src="./github/preview1.png">
+    <img width="550" height="350" src="./github/preview2.png">
 </span>
     
 </p>
